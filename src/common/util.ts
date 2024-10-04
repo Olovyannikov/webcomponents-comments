@@ -7,14 +7,14 @@ export function isStringEmpty(value: string | undefined | null): boolean {
 }
 
 // Сравнивает ссылки на объект
-export function areArraysEqual(first: any[], second: any[]): boolean {
-    if (first.length !== second.length) { // Case: arrays have different size
+export function areArraysEqual<T>(first: T[], second: T[]): boolean {
+    if (first.length !== second.length) { // Кейс: массивы имеют разный размер
         return false;
-    } else { // Case: arrays have equal size
+    } else { // Кейс: массивы имеют одинаковый размер
         first.sort();
         second.sort();
 
-        for (let i: number = 0; i < first.length; i++) {
+        for (let i = 0; i < first.length; i++) {
             if (first[i] !== second[i]) {
                 return false;
             }
@@ -27,16 +27,11 @@ export function areArraysEqual(first: any[], second: any[]): boolean {
 // функция-заглушка
 export function noop(): void {}
 
-/**
- * https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent#mobile_tablet_or_desktop
- */
+
 export function isMobileBrowser(): boolean {
     return /Mobile/i.test(window.navigator.userAgent);
 }
 
-/**
- * Converts non-standard spaces to regular spaces and trims every space/newline/return at both ends
- */
 export function normalizeSpaces(inputText: string): string {
     return inputText.trim().replace(/([^\S\n ]|[^\P{C}\n ]|[^\P{Z}\n ])/gmu, ' ');
 }
