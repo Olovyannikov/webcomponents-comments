@@ -19,6 +19,7 @@
     "prettier"
   ],
   "rules": {
-    "no-empty": "warn"
+    "no-empty": "warn",
+    "no-else-return": "warn"
   }
 }
