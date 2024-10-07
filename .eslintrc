@@ -22,6 +22,7 @@
     "no-empty": "warn",
     "no-else-return": "warn",
     "no-nested-ternary": "warn",
-    "no-use-before-define": "warn"
+    "no-use-before-define": "warn",
+    "no-useless-computed-key": "warn"
   }
 }

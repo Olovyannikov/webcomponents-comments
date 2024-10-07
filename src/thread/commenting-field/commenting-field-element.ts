@@ -10,6 +10,8 @@ import { ProfilePictureFactory } from '../basic/profile-picture-factory.ts';
 import { defineCustomElement } from '../../common/custom-element.ts';
 import { ErrorFct, SuccessFct } from '../../options/callbacks.ts';
 import { CommentViewModelProvider, OptionsProvider, ServiceProvider } from '../../common/provider.ts';
+import { TextcompleteFactory } from './textcomplete-factory.ts';
+import { Textcomplete } from '@textcomplete/core';
 
 export class CommentingFieldElement extends HTMLElement {
     parentId: string | null = null;
