@@ -21,6 +21,7 @@
   "rules": {
     "no-empty": "warn",
     "no-else-return": "warn",
-    "no-nested-ternary": "warn"
+    "no-nested-ternary": "warn",
+    "no-use-before-define": "warn"
   }
 }

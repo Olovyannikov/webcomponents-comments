@@ -1,13 +1,15 @@
-import type { AttachmentModel } from '../../options/models.ts';
+import type { AttachmentModel, CommentModel } from '../../options/models.ts';
 import { ButtonElement } from '../basic/button-element.ts';
 import type { CommentsOptions } from '../../options';
 import { TagFactory } from '../basic/tag-factory.ts';
 import { areArraysEqual, isStringEmpty, noop } from '../../common/util.ts';
 import { TextareaElement } from './textarea-element.ts';
-import { findSiblingsBySelector } from '../../common/html-util.ts';
+import { findSiblingsBySelector, getHostContainer, hideElement, showElement } from '../../common/html-util.ts';
 import { CommentViewModel } from '../../view-model/comment-view-model.ts';
 import { ProfilePictureFactory } from '../basic/profile-picture-factory.ts';
 import { defineCustomElement } from '../../common/custom-element.ts';
+import { ErrorFct, SuccessFct } from '../../options/callbacks.ts';
+import { CommentViewModelProvider, OptionsProvider, ServiceProvider } from '../../common/provider.ts';
 
 export class CommentingFieldElement extends HTMLElement {
     parentId: string | null = null;
@@ -315,7 +317,7 @@ export class CommentingFieldElement extends HTMLElement {
         const textarea: TextareaElement = this.querySelector('.textarea')!;
         const time: Date = new Date();
 
-        const commentModel: CommentModel = {
+        return {
             id: 'tempId_' + (this.#commentViewModel.size + 1), // Temporary id
             parentId: textarea.parentId || undefined,
             createdAt: time,
@@ -331,14 +333,15 @@ export class CommentingFieldElement extends HTMLElement {
             upvotedByCurrentUser: false,
             attachments: this.getAttachments(),
         };
-        return commentModel;
     }
 
     getAttachments<F extends File | string>(): AttachmentModel<F>[] {
         const attachmentElements: NodeListOf<HTMLAnchorElement> = this.querySelectorAll('.attachments .attachment');
         const attachments: AttachmentModel<F>[] = [];
         for (let i = 0; i < attachmentElements.length; i++) {
-            attachments[i] = (attachmentElements[i] as any).attachmentTagData;
+            attachments[i] = (
+                attachmentElements[i] as HTMLAnchorElement & { attachmentTagData: AttachmentModel<F> }
+            ).attachmentTagData;
         }
 
         return attachments;
@@ -368,8 +371,10 @@ export class CommentingFieldElement extends HTMLElement {
             // Case: attachments changed
             let attachmentsChanged = false;
             if (this.#options.enableAttachments) {
-                const savedAttachmentIds = (commentModel.attachments ?? []).map((attachment: any) => attachment.id);
-                const currentAttachmentIds = attachments.map((attachment: any) => attachment.id);
+                const savedAttachmentIds = (commentModel.attachments ?? []).map(
+                    (attachment: { id: string | number }) => attachment.id
+                );
+                const currentAttachmentIds = attachments.map((attachment: { id: string | number }) => attachment.id);
                 attachmentsChanged = !areArraysEqual(savedAttachmentIds, currentAttachmentIds);
             }
 
