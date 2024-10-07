@@ -15,7 +15,7 @@ export interface AttachmentModel<F extends File | string = File | string> {
 export interface CommentModel {
     id: CommentId;
     // Обязательно, если ответы включены
-    parentId?: CommentId;
+    parentId?: CommentId | null;
     createdAt: Date;
     // Обязательно, если редактирование включено
     modifiedAt?: Date;

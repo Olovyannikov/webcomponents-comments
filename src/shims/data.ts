@@ -1,4 +1,6 @@
-export const commentsArray = [
+import {CommentModel} from "../options/models.ts";
+
+export const commentsArray: CommentModel[] = [
     {
         id: '1',
         parentId: null,

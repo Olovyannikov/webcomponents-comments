@@ -1,4 +1,10 @@
-import {AttachmentModel, CommentModel, CommentModelWithUpvotes, PingableUser, ReferenceableHashtag} from "./models.ts";
+import type {
+    AttachmentModel,
+    CommentModel,
+    CommentModelWithUpvotes,
+    PingableUser,
+    ReferenceableHashtag,
+} from './models.ts';
 
 export interface Callbacks {
     refresh?(): void;
@@ -8,7 +14,11 @@ export interface Callbacks {
     postComment(comment: CommentModel, success: SuccessFct<CommentModel>, error: ErrorFct): void;
     putComment?(comment: CommentModel, success: SuccessFct<CommentModel>, error: ErrorFct): void;
     deleteComment?(comment: CommentModel, success: SuccessFct<CommentModel>, error: ErrorFct): void;
-    upvoteComment?(comment: CommentModelWithUpvotes, success: SuccessFct<CommentModelWithUpvotes>, error: ErrorFct): void;
+    upvoteComment?(
+        comment: CommentModelWithUpvotes,
+        success: SuccessFct<CommentModelWithUpvotes>,
+        error: ErrorFct
+    ): void;
     validateAttachments?(attachments: AttachmentModel<File>[], accept: AcceptFct<AttachmentModel<File>[]>): void;
     hashtagClicked?(hashtag: string): void;
     pingClicked?(userId: string): void;
