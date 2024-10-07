@@ -24,7 +24,7 @@ export class CommentsElementEventHandler implements ElementEventHandler {
     closeDropdowns(): void {
         const escPressEvent = new KeyboardEvent('keydown', {
             key: 'Escape',
-            keyCode: 27,
+            code: 'Escape',
         });
         this.container.querySelectorAll<HTMLElement>('.textarea').forEach((el) => el.dispatchEvent(escPressEvent));
     }
@@ -46,7 +46,7 @@ export class CommentsElementEventHandler implements ElementEventHandler {
         }
     }
 
-    showDroppableOverlay(e: UIEvent): void {
+    showDroppableOverlay(): void {
         if (this.#options.enableAttachments) {
             this.container.querySelectorAll<HTMLElement>('.droppable-overlay').forEach((element) => {
                 element.style.top = this.container.scrollTop + 'px';

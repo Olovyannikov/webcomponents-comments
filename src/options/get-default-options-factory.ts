@@ -1,6 +1,6 @@
 import { noop } from '../common/util.ts';
 import { STYLE_SHEET } from '../css/stylesheet.ts';
-import { CommentsOptions } from './index.ts';
+import type { CommentsOptions } from './index.ts';
 import { SortKey } from './misc.ts';
 
 export function getDefaultOptions(): Required<CommentsOptions> {
