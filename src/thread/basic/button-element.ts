@@ -4,7 +4,7 @@ import { CommentsOptions } from '../../options';
 import { CommentViewModelProvider, OptionsProvider, ServiceProvider } from '../../common/provider.ts';
 import { getHostContainer } from '../../common/html-util.ts';
 import { SpinnerFactory } from './spinner-factory.ts';
-import { CommentModelEnriched } from '../../view-model/comment-model-enriched.ts';
+import type { CommentModelEnriched } from '../../view-model/comment-model-enriched.ts';
 import { CommentViewModel } from '../../view-model/comment-view-model.ts';
 import { ErrorFct, SuccessFct } from '../../options/callbacks.ts';
 import { CommentModel } from '../../options/models.ts';
