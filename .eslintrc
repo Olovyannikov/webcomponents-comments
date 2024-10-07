@@ -20,6 +20,7 @@
   ],
   "rules": {
     "no-empty": "warn",
-    "no-else-return": "warn"
+    "no-else-return": "warn",
+    "no-nested-ternary": "warn"
   }
 }
