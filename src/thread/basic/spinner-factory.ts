@@ -1,9 +1,8 @@
-import {Icons} from "../../options/icons.ts";
-import {OptionsProvider} from "../../common/provider.ts";
-import {createElement} from "../../common/html-element-factory.ts";
+import { Icons } from '../../options/icons.ts';
+import { OptionsProvider } from '../../common/provider.ts';
+import { createElement } from '../../common/html-element-factory.ts';
 
 export class SpinnerFactory {
-
     readonly #options: Icons;
 
     constructor(container: HTMLElement) {
