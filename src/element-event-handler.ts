@@ -34,12 +34,11 @@ export class CommentsElementEventHandler implements ElementEventHandler {
         const files: FileList = clipboardData.files;
 
         if (files?.length === 1) {
-            // Select correct commenting field
             const parentCommentingField: CommentingFieldElement =
                 findParentsBySelector<CommentingFieldElement>(
                     e.target as HTMLElement,
                     'ax-commenting-field.commenting-field'
-                ).first() || this.container.querySelector('ax-commenting-field.commenting-field.main')!;
+                ).first() || this.container.querySelector('ithub-commenting-field.commenting-field.main')!;
 
             parentCommentingField.preSaveAttachments(files);
 

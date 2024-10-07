@@ -12,6 +12,16 @@ export class CommentingFieldElement extends HTMLElement {
     #tagFactory!: TagFactory;
     #commentViewModel!: CommentViewModel;
 
+    static create(
+        options: Partial<Pick<CommentingFieldElement, 'parentId' | 'existingCommentId' | 'isMain' | 'onClosed'>>
+    ): CommentingFieldElement {
+        const commentingFieldEl: CommentingFieldElement = document.createElement(
+            'ax-commenting-field'
+        ) as CommentingFieldElement;
+        Object.assign(commentingFieldEl, options);
+        return commentingFieldEl;
+    }
+
     #toggleSaveButton(): void {
         const textarea: TextareaElement = this.querySelector('.textarea')!;
         const saveButton: ButtonElement = findSiblingsBySelector<ButtonElement>(textarea, '.control-row').querySelector(
