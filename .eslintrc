@@ -12,6 +12,8 @@
     "simple-import-sort"
   ],
   "extends": [
-    "eslint:recommended"
+    "eslint:recommended",
+    "plugin:import/typescript",
+    "plugin:@typescript-eslint/eslint-recommended"
   ]
 }
