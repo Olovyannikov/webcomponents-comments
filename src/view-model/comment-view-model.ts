@@ -1,12 +1,22 @@
-import EventEmitter from "eventemitter3";
-import {CommentId, CommentModel} from "../options/models.ts";
-import {CommentTransformer} from "./comment-transformer.ts";
-import {CommentsById} from "./comments-by-id.ts";
-import {CommentsByIdFactory} from "./comments-by-id-factory.ts";
-import {CommentModelEnriched} from "./comment-model-enriched.ts";
+import EventEmitter from 'eventemitter3';
+import { CommentId, CommentModel } from '../options/models.ts';
+import { CommentTransformer } from './comment-transformer.ts';
+import { CommentsById } from './comments-by-id.ts';
+import { CommentsByIdFactory } from './comments-by-id-factory.ts';
+import { CommentModelEnriched } from './comment-model-enriched.ts';
+
+export enum CommentViewModelEvent {
+    COMMENT_ADDED = 'COMMENT_ADDED',
+    COMMENT_UPDATED = 'COMMENT_UPDATED',
+    COMMENT_UPVOTED = 'COMMENT_UPVOTED',
+    COMMENT_DELETED = 'COMMENT_DELETED',
+}
+
+export interface CommentViewModelEventSubscription {
+    unsubscribe(): void;
+}
 
 export class CommentViewModel {
-
     readonly #eventEmitter: EventEmitter<CommentViewModelEvent, CommentId> = new EventEmitter();
     readonly #commentTransformer: CommentTransformer = new CommentTransformer();
     #commentsById: CommentsById = CommentsByIdFactory.empty();
@@ -34,15 +44,21 @@ export class CommentViewModel {
         return sorter ? comments.sort(sorter) : comments;
     }
 
-    getChildComments(parentId: CommentId, sorter?: (a: CommentModelEnriched, b: CommentModelEnriched) => number): CommentModelEnriched[] {
+    getChildComments(
+        parentId: CommentId,
+        sorter?: (a: CommentModelEnriched, b: CommentModelEnriched) => number
+    ): CommentModelEnriched[] {
         const children: CommentModelEnriched[] = this.#commentsById.getChildComments(parentId);
         return sorter ? children.sort(sorter) : children;
     }
 
-    subscribe(type: CommentViewModelEvent, listener: (commentId: CommentId) => void): CommentViewModelEventSubscription {
+    subscribe(
+        type: CommentViewModelEvent,
+        listener: (commentId: CommentId) => void
+    ): CommentViewModelEventSubscription {
         this.#eventEmitter.addListener(type, listener);
         return {
-            unsubscribe: () => this.unsubscribe(type, listener)
+            unsubscribe: () => this.unsubscribe(type, listener),
         };
     }
 
@@ -56,7 +72,10 @@ export class CommentViewModel {
 
     addComment(comment: CommentModel): CommentModelEnriched {
         if (this.getComment(comment.id)) throw new Error(`Comment with id=${comment.id} already exists`);
-        const commentEnriched: CommentModelEnriched = this.#commentTransformer.enrich(comment, parentId => this.getComment(parentId)!);
+        const commentEnriched: CommentModelEnriched = this.#commentTransformer.enrich(
+            comment,
+            (parentId) => this.getComment(parentId)!
+        );
         this.#commentsById.setComment(commentEnriched);
         this.#eventEmitter.emit(CommentViewModelEvent.COMMENT_ADDED, comment.id);
         return commentEnriched;
@@ -71,7 +90,7 @@ export class CommentViewModel {
             parentId: existingComment.parentId,
             createdAt: existingComment.createdAt,
             creatorUserId: existingComment.creatorUserId,
-            creatorDisplayName: existingComment.creatorDisplayName
+            creatorDisplayName: existingComment.creatorDisplayName,
         });
         Object.assign(existingComment, comment);
         this.#eventEmitter.emit(CommentViewModelEvent.COMMENT_UPDATED, comment.id);
@@ -84,7 +103,7 @@ export class CommentViewModel {
 
         Object.assign<CommentModelEnriched, Partial<CommentModel>>(existingComment, {
             upvoteCount: comment.upvoteCount,
-            upvotedByCurrentUser: comment.upvotedByCurrentUser
+            upvotedByCurrentUser: comment.upvotedByCurrentUser,
         });
         this.#eventEmitter.emit(CommentViewModelEvent.COMMENT_UPVOTED, comment.id);
         return existingComment;
@@ -98,15 +117,4 @@ export class CommentViewModel {
 
         this.#eventEmitter.emit(CommentViewModelEvent.COMMENT_DELETED, comment.id);
     }
-}
-
-export enum CommentViewModelEvent {
-    COMMENT_ADDED = 'COMMENT_ADDED',
-    COMMENT_UPDATED = 'COMMENT_UPDATED',
-    COMMENT_UPVOTED = 'COMMENT_UPVOTED',
-    COMMENT_DELETED = 'COMMENT_DELETED',
-}
-
-export interface CommentViewModelEventSubscription {
-    unsubscribe(): void;
 }

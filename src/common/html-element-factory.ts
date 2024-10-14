@@ -1,4 +1,4 @@
-const createFragment: (markup: string) => DocumentFragment = (range => {
+const createFragment: (markup: string) => DocumentFragment = ((range) => {
     return range.createContextualFragment.bind(range);
 })(new Range());
 

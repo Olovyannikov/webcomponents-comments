@@ -23,7 +23,7 @@ export class NavigationElement extends HTMLElement {
     #options!: Required<CommentsOptions>;
 
     static create(options: Pick<NavigationElement, 'sortKey' | 'onSortKeyChanged'>): NavigationElement {
-        const navigationEl: NavigationElement = document.createElement('ax-navigation') as NavigationElement;
+        const navigationEl: NavigationElement = document.createElement('ithub-navigation') as NavigationElement;
         Object.assign(navigationEl, options);
         return navigationEl;
     }

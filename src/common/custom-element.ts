@@ -1,4 +1,9 @@
 /**
+ * Ссылка на конкретный кастомный класс элемента;
+ */
+type CustomElementConstructor<E extends HTMLElement> = new (...args: any[]) => E;
+
+/**
  * Декоратор, который регистрирует кастомный HTML element.
  */
 export function CustomElement(selector: string, options?: ElementDefinitionOptions): CustomElementDecorator {
@@ -12,13 +17,15 @@ export function CustomElement(selector: string, options?: ElementDefinitionOptio
 /**
  * Кастомный декоратор для элемента. Основан на {@link ClassDecorator}.
  */
-type CustomElementDecorator = <E extends HTMLElement, C extends CustomElementConstructor<E>>(target: C, context: ClassDecoratorContext<C>) => C | void;
+type CustomElementDecorator = <E extends HTMLElement, C extends CustomElementConstructor<E>>(
+    target: C,
+    context: ClassDecoratorContext<C>
+) => C | void;
 
-/**
- * Ссылка на конкретный кастомный класс элемента;
- */
-type CustomElementConstructor<E extends HTMLElement> = new (...args: any[]) => E;
-
-export function defineCustomElement(ctor: CustomElementConstructor<HTMLElement>, selector: string, options?: ElementDefinitionOptions): void {
+export function defineCustomElement(
+    ctor: CustomElementConstructor<HTMLElement>,
+    selector: string,
+    options?: ElementDefinitionOptions
+): void {
     customElements.define(selector, ctor, options);
 }

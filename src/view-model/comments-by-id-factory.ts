@@ -1,19 +1,8 @@
-import {CommentsById} from "./comments-by-id.ts";
-import {CommentModelEnriched} from "./comment-model-enriched.ts";
-import {CommentId, CommentModel} from "../options/models.ts";
-
-export class CommentsByIdFactory {
-    static empty(): CommentsById {
-        return new EmptyCommentsById();
-    }
-
-    static from(root: Map<CommentId, CommentModelEnriched>, child: Map<CommentId, CommentModelEnriched>): CommentsById {
-        return new MapBasedCommentsById(root, child);
-    }
-}
+import { CommentsById } from './comments-by-id.ts';
+import { CommentModelEnriched } from './comment-model-enriched.ts';
+import { CommentId, CommentModel } from '../options/models.ts';
 
 class MapBasedCommentsById implements CommentsById {
-
     readonly #root: Map<CommentId, CommentModelEnriched>;
     readonly #child: Map<CommentId, CommentModelEnriched>;
 
@@ -41,9 +30,8 @@ class MapBasedCommentsById implements CommentsById {
     deleteComment(comment: CommentModel): boolean {
         if (comment.parentId) {
             return this.#child.delete(comment.id);
-        } else {
-            return this.#root.delete(comment.id);
         }
+        return this.#root.delete(comment.id);
     }
 
     getRootComments(): CommentModelEnriched[] {
@@ -52,7 +40,7 @@ class MapBasedCommentsById implements CommentsById {
 
     getChildComments(parentId: CommentId): CommentModelEnriched[] {
         const parent: CommentModelEnriched = this.getComment(parentId)!;
-        const children: CommentModelEnriched[] = parent.allChildIds.map(childId => this.getComment(childId)!);
+        const children: CommentModelEnriched[] = parent.allChildIds.map((childId) => this.getComment(childId)!);
         return children;
     }
 
@@ -62,23 +50,19 @@ class MapBasedCommentsById implements CommentsById {
                 new Map([...this.#root, ...other.#root]),
                 new Map([...this.#child, ...other.#child])
             );
-        } else {
-            const rootComments: CommentModelEnriched[] = other.getRootComments();
-            const childComments: CommentModelEnriched[] = rootComments.flatMap(c => other.getChildComments(c.id));
-            const root: Map<CommentId, CommentModelEnriched> = new Map();
-            const child: Map<CommentId, CommentModelEnriched> = new Map();
-            rootComments.forEach(c => root.set(c.id, c));
-            childComments.forEach(c => child.set(c.id, c));
-
-            return new MapBasedCommentsById(root, child);
         }
+        const rootComments: CommentModelEnriched[] = other.getRootComments();
+        const childComments: CommentModelEnriched[] = rootComments.flatMap((c) => other.getChildComments(c.id));
+        const root: Map<CommentId, CommentModelEnriched> = new Map();
+        const child: Map<CommentId, CommentModelEnriched> = new Map();
+        rootComments.forEach((c) => root.set(c.id, c));
+        childComments.forEach((c) => child.set(c.id, c));
 
+        return new MapBasedCommentsById(root, child);
     }
-
 }
 
 class EmptyCommentsById implements CommentsById {
-
     readonly size: number = 0;
 
     getComment(): CommentModelEnriched | undefined {
@@ -103,5 +87,15 @@ class EmptyCommentsById implements CommentsById {
 
     merge(other: CommentsById): CommentsById {
         return other;
+    }
+}
+
+export class CommentsByIdFactory {
+    static empty(): CommentsById {
+        return new EmptyCommentsById();
+    }
+
+    static from(root: Map<CommentId, CommentModelEnriched>, child: Map<CommentId, CommentModelEnriched>): CommentsById {
+        return new MapBasedCommentsById(root, child);
     }
 }

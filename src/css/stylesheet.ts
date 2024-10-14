@@ -1,4 +1,4 @@
-import {tagNoop} from './tagNoop';
+import { tagNoop } from './tagNoop';
 
 const mainStyle: string = tagNoop`
 #comments-container * {
@@ -510,7 +510,7 @@ const mainStyle: string = tagNoop`
     overflow: hidden;
 }
 
-#comments-container ul.main > li.comment:first-child > ax-comment-content > .comment-wrapper {
+#comments-container ul.main > li.comment:first-child > ithub-comment-content > .comment-wrapper {
     border-top: none;
 }
 
@@ -674,7 +674,7 @@ const actionsStyle: string = tagNoop`
 const childCommentsStyle: string = tagNoop`
 /* Margin for second level content */
 #comments-container ul.main li.comment .child-comments > *::before,
-#comments-container ul.main li.comment > ax-commenting-field > *::before {
+#comments-container ul.main li.comment > ithub-commenting-field > *::before {
     content: "";
     height: 1px;
     float: left;
@@ -686,13 +686,13 @@ const childCommentsStyle: string = tagNoop`
 }
 
 #comments-container ul.main li.comment .child-comments .profile-picture,
-#comments-container ul.main li.comment .child-comments ~ ax-commenting-field .profile-picture {
+#comments-container ul.main li.comment .child-comments ~ ithub-commenting-field .profile-picture {
     width: 2.4rem;
     height: 2.4rem;
 }
 
 #comments-container ul.main li.comment .child-comments i.profile-picture,
-#comments-container ul.main li.comment .child-comments ~ ax-commenting-field i.profile-picture {
+#comments-container ul.main li.comment .child-comments ~ ithub-commenting-field i.profile-picture {
     font-size: 2.4em;
 }
 
@@ -745,11 +745,11 @@ const childCommentsStyle: string = tagNoop`
 
 /* Editing comment */
 const editingCommentStyle: string = tagNoop`
-#comments-container ul.main li.comment.edit > ax-comment-content > .comment-wrapper > *:not(.commenting-field) {
+#comments-container ul.main li.comment.edit > ithub-comment-content > .comment-wrapper > *:not(.commenting-field) {
     display: none;
 }
 
-#comments-container ul.main li.comment.edit > ax-comment-content > .comment-wrapper .commenting-field {
+#comments-container ul.main li.comment.edit > ithub-comment-content > .comment-wrapper .commenting-field {
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
@@ -805,13 +805,15 @@ const readOnlyStyle: string = tagNoop`
 
 export const STYLE_SHEET: CSSStyleSheet = (() => {
     const styleSheet: CSSStyleSheet = new CSSStyleSheet();
-    styleSheet.replaceSync(mainStyle
-        + contentStyle
-        + attachmentsStyle
-        + actionsStyle
-        + childCommentsStyle
-        + editingCommentStyle
-        + dragAndDropAttachmentsStyle
-        + readOnlyStyle);
+    styleSheet.replaceSync(
+        mainStyle +
+            contentStyle +
+            attachmentsStyle +
+            actionsStyle +
+            childCommentsStyle +
+            editingCommentStyle +
+            dragAndDropAttachmentsStyle +
+            readOnlyStyle
+    );
     return styleSheet;
 })();

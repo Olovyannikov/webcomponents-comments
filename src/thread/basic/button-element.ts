@@ -39,7 +39,7 @@ export class ButtonElement extends HTMLButtonElement {
     }
 
     static createCloseButton(options: Pick<ButtonElement, 'inline' | 'onclick'>, className?: string): ButtonElement {
-        const closeButton: ButtonElement = document.createElement('button', { is: 'ax-button' }) as ButtonElement;
+        const closeButton: ButtonElement = document.createElement('button', { is: 'ithub-button' }) as ButtonElement;
         Object.assign(closeButton, options);
         closeButton.classList.add(className || 'close');
 
@@ -58,7 +58,7 @@ export class ButtonElement extends HTMLButtonElement {
     }
 
     static createSaveButton(options: Pick<ButtonElement, 'onclick'>, existingCommentId: string | null): ButtonElement {
-        const saveButton: ButtonElement = document.createElement('button', { is: 'ax-button' }) as ButtonElement;
+        const saveButton: ButtonElement = document.createElement('button', { is: 'ithub-button' }) as ButtonElement;
         Object.assign(saveButton, options);
 
         saveButton.onInitialized = (button) => {
@@ -74,7 +74,7 @@ export class ButtonElement extends HTMLButtonElement {
     static createUploadButton(
         options: Pick<ButtonElement, 'inline'> & Pick<HTMLInputElement, 'onchange'>
     ): ButtonElement {
-        const uploadButton: ButtonElement = document.createElement('button', { is: 'ax-button' }) as ButtonElement;
+        const uploadButton: ButtonElement = document.createElement('button', { is: 'ithub-button' }) as ButtonElement;
         uploadButton.inline = options.inline;
         uploadButton.classList.add('upload', 'enabled');
 
@@ -102,7 +102,7 @@ export class ButtonElement extends HTMLButtonElement {
         label: string,
         options: Pick<ButtonElement, 'onclick'>
     ): ButtonElement {
-        const actionButton: ButtonElement = document.createElement('button', { is: 'ax-button' }) as ButtonElement;
+        const actionButton: ButtonElement = document.createElement('button', { is: 'ithub-button' }) as ButtonElement;
         Object.assign(actionButton, options);
         actionButton.classList.add('action', className);
         actionButton.append(ButtonElement.createLabel(label));
@@ -125,7 +125,7 @@ export class ButtonElement extends HTMLButtonElement {
     }
 
     static createUpvoteButton(commentModel: CommentModelEnriched): ButtonElement {
-        const upvoteButton: ButtonElement = document.createElement('button', { is: 'ax-button' }) as ButtonElement;
+        const upvoteButton: ButtonElement = document.createElement('button', { is: 'ithub-button' }) as ButtonElement;
         upvoteButton.classList.add('action', 'upvote');
         upvoteButton.classList.toggle('disabled', !!commentModel.createdByCurrentUser || !!commentModel.isDeleted);
         const upvoteCounter: HTMLSpanElement = document.createElement('span');

@@ -1,6 +1,8 @@
 import type { CommentsOptions } from '../options';
 import { CommentViewModel } from '../view-model/comment-view-model.ts';
 
+type ServiceConstructor<T> = new (container: HTMLElement) => T;
+
 export class OptionsProvider {
     private static readonly OPTIONS: WeakMap<HTMLElement, Required<CommentsOptions>> = new WeakMap();
 
@@ -47,16 +49,13 @@ export class ServiceProvider {
             const instance: T = this.instantiate(container, ctor);
             instances.push(instance);
             return instance;
-        } else {
-            const instance: T = this.instantiate(container, ctor);
-            this.SERVICES.set(container, [instance]);
-            return instance;
         }
+        const instance: T = this.instantiate(container, ctor);
+        this.SERVICES.set(container, [instance]);
+        return instance;
     }
 
     private static instantiate<T extends object>(container: HTMLElement, ctor: ServiceConstructor<T>): T {
         return new ctor(container);
     }
 }
-
-type ServiceConstructor<T> = new (container: HTMLElement) => T;

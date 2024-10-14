@@ -1,8 +1,7 @@
-import {CommentId, CommentModel} from "../options/models.ts";
-import {CommentModelEnriched} from "./comment-model-enriched.ts";
+import { CommentId, CommentModel } from '../options/models.ts';
+import { CommentModelEnriched } from './comment-model-enriched.ts';
 
 export interface CommentsById {
-
     readonly size: number;
 
     getComment(id: CommentId): CommentModelEnriched | undefined;
@@ -16,5 +15,4 @@ export interface CommentsById {
     getChildComments(parentId: CommentId): CommentModelEnriched[];
 
     merge(other: CommentsById): CommentsById;
-
 }

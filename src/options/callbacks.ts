@@ -6,6 +6,10 @@ import type {
     ReferenceableHashtag,
 } from './models.ts';
 
+export type SuccessFct<T> = (data: T) => void;
+export type AcceptFct<T> = (data: T) => void;
+export type ErrorFct = (e: any) => void;
+
 export interface Callbacks {
     refresh?(): void;
     getComments(success: SuccessFct<CommentModel[]>, error: ErrorFct): void;
@@ -23,9 +27,3 @@ export interface Callbacks {
     hashtagClicked?(hashtag: string): void;
     pingClicked?(userId: string): void;
 }
-
-export type SuccessFct<T> = (data: T) => void;
-
-export type AcceptFct<T> = (data: T) => void;
-
-export type ErrorFct = (e: any) => void;

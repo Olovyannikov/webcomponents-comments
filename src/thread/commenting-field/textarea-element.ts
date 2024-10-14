@@ -53,7 +53,9 @@ export class TextareaElement extends HTMLTextAreaElement {
     }
 
     static create(options: Pick<TextareaElement, 'existingCommentId' | 'parentId' | 'onclick'>): TextareaElement {
-        const textarea: TextareaElement = document.createElement('textarea', { is: 'ax-textarea' }) as TextareaElement;
+        const textarea: TextareaElement = document.createElement('textarea', {
+            is: 'ithub-textarea',
+        }) as TextareaElement;
         Object.assign(textarea, options);
         return textarea;
     }

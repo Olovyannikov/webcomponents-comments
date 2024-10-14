@@ -33,11 +33,13 @@ export class CommentsElementEventHandler implements ElementEventHandler {
         const clipboardData = e.clipboardData!;
         const files: FileList = clipboardData.files;
 
+        // Browsers only support pasting one file
         if (files?.length === 1) {
+            // Select correct commenting field
             const parentCommentingField: CommentingFieldElement =
                 findParentsBySelector<CommentingFieldElement>(
                     e.target as HTMLElement,
-                    'ax-commenting-field.commenting-field'
+                    'ithub-commenting-field.commenting-field'
                 ).first() || this.container.querySelector('ithub-commenting-field.commenting-field.main')!;
 
             parentCommentingField.preSaveAttachments(files);
@@ -69,7 +71,7 @@ export class CommentsElementEventHandler implements ElementEventHandler {
         });
     }
 
-    #handleDragLeave(e: DragEvent, onDragLeft?: Function): void {
+    #handleDragLeave(e: DragEvent, onDragLeft?: VoidFunction): void {
         const currentTarget: HTMLElement = e.currentTarget as HTMLElement;
         let count: number = Number(currentTarget.getAttribute('data-dnd-count'));
         currentTarget.setAttribute('data-dnd-count', `${--count}`);
@@ -98,8 +100,10 @@ export class CommentsElementEventHandler implements ElementEventHandler {
     handleDrop(e: DragEvent): void {
         e.preventDefault();
 
+        // Reset DND counts
         e.target!.dispatchEvent(new DragEvent('dragleave'));
 
+        // Hide the overlay and upload the files
         this.#hideDroppableOverlay();
         this.container
             .querySelector<CommentingFieldElement>('ithub-commenting-field.commenting-field.main')!

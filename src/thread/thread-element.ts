@@ -7,6 +7,7 @@ import { CommentViewModelProvider, OptionsProvider, ServiceProvider } from '../c
 import { getHostContainer } from '../common/html-util.ts';
 import { CommentModelEnriched } from '../view-model/comment-model-enriched.ts';
 import { SortKey } from '../options/misc.ts';
+import { ToggleAllButtonElement } from './basic/toggle-all-button-element.ts';
 
 export class ThreadElement extends CommentElement {
     #initialized: boolean = false;
@@ -23,7 +24,7 @@ export class ThreadElement extends CommentElement {
     }
 
     static create(options: Pick<ThreadElement, 'commentModel'>): ThreadElement {
-        const threadEl: ThreadElement = document.createElement('li', { is: 'ax-thread' }) as ThreadElement;
+        const threadEl: ThreadElement = document.createElement('li', { is: 'ithub-thread' }) as ThreadElement;
         Object.assign(threadEl, options);
         return threadEl;
     }
@@ -65,8 +66,10 @@ export class ThreadElement extends CommentElement {
                 ? this
                 : this.querySelector(`li.comment[data-id="${commentModel.parentId}"]`)!;
 
+        // Re-render action bar of direct parent element
         directParentEl.reRenderCommentActionBar();
 
+        // Append element to DOM
         const childCommentsEl: HTMLElement = this.querySelector('.child-comments')!;
         childCommentsEl.append(commentEl);
     }

@@ -1,17 +1,17 @@
-import {CommentId, CommentModel} from "../options/models.ts";
-import {CommentModelEnriched} from "./comment-model-enriched.ts";
-import {CommentsById} from "./comments-by-id.ts";
-import {isNil} from "../common/util.ts";
-import {CommentsByIdFactory} from "./comments-by-id-factory.ts";
-import {Writeable} from "../common/writeable.ts";
+import { CommentId, CommentModel } from '../options/models.ts';
+import { CommentModelEnriched } from './comment-model-enriched.ts';
+import { CommentsById } from './comments-by-id.ts';
+import { isNil } from '../common/util.ts';
+import { CommentsByIdFactory } from './comments-by-id-factory.ts';
+import { Writeable } from '../common/writeable.ts';
 
 export class CommentTransformer {
-
     enrichMany(comments: CommentModel[]): CommentsById {
         const root: Map<CommentId, CommentModelEnriched> = new Map();
         const child: Map<CommentId, CommentModelEnriched> = new Map();
-        const parentGetter: (parentId: CommentId) => CommentModelEnriched = parentId => child.get(parentId) ?? root.get(parentId)!;
-        comments.sort(this.#getByCreationDateAscSorter()).forEach(c => {
+        const parentGetter: (parentId: CommentId) => CommentModelEnriched = (parentId) =>
+            child.get(parentId) ?? root.get(parentId)!;
+        comments.sort(this.#getByCreationDateAscSorter()).forEach((c) => {
             const enriched: CommentModelEnriched = this.enrich(c, parentGetter);
             if (enriched.parentId) {
                 child.set(enriched.id, enriched);
@@ -28,7 +28,7 @@ export class CommentTransformer {
             const createdA = a.createdAt.getTime();
             const createdB = b.createdAt.getTime();
             return createdA - createdB;
-        }
+        };
     }
 
     enrich(comment: CommentModel, parentGetter: (parentId: CommentId) => CommentModelEnriched): CommentModelEnriched {
@@ -37,7 +37,7 @@ export class CommentTransformer {
             commentModel.directChildIds = [];
             commentModel.allChildIds = [];
             commentModel.hasAttachments = function () {
-                return this.attachments?.length as number > 0;
+                return (this.attachments?.length as number) > 0;
             };
             commentModel.deplete = function <S extends Partial<CommentModel>>(mergeSource?: S) {
                 const result: Writeable<Partial<CommentModelEnriched>> = Object.assign({}, this, mergeSource);
@@ -51,7 +51,7 @@ export class CommentTransformer {
 
         if (!isNil(commentModel.parentId)) {
             parentGetter(commentModel.parentId).directChildIds.push(commentModel.id);
-            this.#visitParents(commentModel, parentGetter, parent => this.#assignChildId(parent, commentModel.id));
+            this.#visitParents(commentModel, parentGetter, (parent) => this.#assignChildId(parent, commentModel.id));
         }
 
         return commentModel as CommentModelEnriched;
@@ -62,7 +62,7 @@ export class CommentTransformer {
         parentGetter: (parentId: CommentId) => CommentModelEnriched,
         parentVisitor: (parent: CommentModelEnriched) => void
     ): void {
-        let parentId: CommentId | undefined = comment.parentId;
+        let parentId: CommentId | null | undefined = comment.parentId;
         let parentComment: CommentModelEnriched;
         do {
             parentComment = parentGetter(parentId!);

@@ -23,6 +23,7 @@
     "no-else-return": "warn",
     "no-nested-ternary": "warn",
     "no-use-before-define": "warn",
-    "no-useless-computed-key": "warn"
+    "no-useless-computed-key": "warn",
+    "no-unsafe-optional-chaining": "warn"
   }
 }

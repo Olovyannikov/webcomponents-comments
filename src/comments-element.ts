@@ -17,10 +17,11 @@ import { hideElement } from './common/html-util.ts';
 import { CommentingFieldElement } from './thread/commenting-field/commenting-field-element.ts';
 import { createElement } from './common/html-element-factory.ts';
 import { EVENT_HANDLERS_MAP } from './events.ts';
-import { getDefaultOptions } from './options/get-default-options-factory.ts';
+import { getDefaultOptions } from './options/default-options-factory.ts';
 
 export class CommentsElement extends HTMLElement {
     private container!: HTMLElement;
+
     readonly #options: Required<CommentsOptions> = {} as Required<CommentsOptions>;
 
     #commentViewModel!: CommentViewModel;
@@ -65,7 +66,7 @@ export class CommentsElement extends HTMLElement {
     set options(options: CommentsOptions) {
         if (!options) return;
         if (Object.keys(this.#options).length) {
-            console.warn(`<ax-comments> Options already set, component can not be reinitialized.`);
+            console.warn(`<ithub-comments> Options already set, component can not be reinitialized.`);
             return;
         }
         Object.assign(this.#options, getDefaultOptions(), options);
@@ -73,6 +74,9 @@ export class CommentsElement extends HTMLElement {
         if (this.#connected) this.#init();
     }
 
+    /**
+     * Define our shadowDOM for the component
+     */
     #initShadowDom(shadowRoot: ShadowRoot): void {
         shadowRoot.innerHTML = `
             <section id="comments-container">
@@ -101,18 +105,22 @@ export class CommentsElement extends HTMLElement {
             this.container.classList.add('mobile');
         }
 
+        // Read-only mode
         if (this.#options.readOnly) {
             this.container.classList.add('read-only');
         }
 
+        // Set initial sort key
         this.#currentSortKey = this.#options.defaultNavigationSortKey;
 
+        // Create user CSS declarations
         let allStyles: CSSStyleSheet[] = [createDynamicStylesheet(this.#options)];
         if (this.#options.styles) {
             allStyles = allStyles.concat(this.#options.styles);
         }
         this.shadowRoot!.adoptedStyleSheets = allStyles;
 
+        // Fetching data and rendering
         this.#fetchDataAndRender();
     }
 
@@ -127,15 +135,46 @@ export class CommentsElement extends HTMLElement {
         });
     }
 
+    #subscribeEvents(): void {
+        this.#toggleEventHandlers('addEventListener');
+    }
+
+    #unsubscribeEvents(): void {
+        this.#toggleEventHandlers('removeEventListener');
+    }
+
+    #toggleEventHandlers(bindFunction: 'addEventListener' | 'removeEventListener') {
+        EVENT_HANDLERS_MAP.forEach((handlerNames, event) => {
+            handlerNames.forEach((handlerName) => {
+                const method: (e: Event) => void = <(e: Event) => void>(
+                    this.#elementEventHandler[handlerName].bind(this.#elementEventHandler)
+                );
+
+                if (isNil(event.selector)) {
+                    this.container[bindFunction](event.type, method);
+                } else {
+                    this.container.querySelectorAll<HTMLElement>(event.selector!).forEach((element) => {
+                        element[bindFunction](event.type, method);
+                    });
+                }
+            });
+        });
+    }
+
     #fetchDataAndRender(): void {
         this.container.innerHTML = '';
         this.#createHTML();
 
+        // Comments
+        // ========
+
         const success: (comments: CommentModel[]) => void = (comments) => {
             this.#commentViewModel.initComments(comments);
 
+            // Mark data as fetched
             this.#dataFetched = true;
 
+            // Render
             this.#render(this.#commentViewModel.size);
         };
         const error: () => void = noop;
@@ -143,28 +182,68 @@ export class CommentsElement extends HTMLElement {
         this.#options.getComments(success, error);
     }
 
+    #fetchNext(): void {
+        // Loading indicator
+        const spinner = this.#spinnerFactory.createSpinner();
+        this.container.querySelector('ul#comment-list')!.append(spinner);
+
+        const success: (comments: CommentModel[]) => void = (comments) => {
+            comments.forEach((comment) => {
+                const commentEnriched: CommentModelEnriched = this.#commentViewModel.addComment(comment);
+                this.#createThread(commentEnriched);
+            });
+            spinner.remove();
+        };
+
+        const error: () => void = () => {
+            spinner.remove();
+        };
+
+        this.#options.getComments(success, error);
+    }
+
+    #render(commentCount: number): void {
+        // Prevent re-rendering if data hasn't been fetched
+        if (!this.#dataFetched) {
+            return;
+        }
+
+        // Create comments and attachments
+        this.#createThreads();
+        this.#getNavigation().commentCount = commentCount;
+
+        this.#subscribeEvents();
+
+        // Remove spinner
+        this.container.querySelectorAll(':scope > .spinner').forEach((spinner) => spinner.remove());
+
+        this.#options.refresh();
+    }
+
+    #getNavigation(): NavigationElement {
+        return this.container.querySelector<NavigationElement>('ithub-navigation')!;
+    }
+
     #createThreads() {
+        // Create the list element before appending to DOM in order to reach better performance
         this.container.querySelector('#comment-list')?.remove();
         const commentList: HTMLUListElement = createElement(`
             <ul id="comment-list" class="main">
             </ul>
         `);
 
+        // Divide comments into top level comments and replies
         const rootComments: CommentModelEnriched[] = this.#commentViewModel.getRootComments(
             this.#commentSorter.getSorter(this.#currentSortKey)
         );
 
+        // Append list to DOM
         this.container.querySelector('[data-container="comments"]')!.prepend(commentList);
 
+        // Append sorted top level comments
         rootComments.forEach((commentModel) => {
             this.#addThread(commentModel, commentList);
         });
-    }
-
-    #createThread(comment: CommentModelEnriched): void {
-        const commentList: HTMLUListElement = this.container.querySelector('#comment-list')!;
-        const prependThread = this.#currentSortKey === SortKey.NEWEST;
-        this.#addThread(comment, commentList, prependThread);
     }
 
     #addThread(
@@ -181,18 +260,24 @@ export class CommentsElement extends HTMLElement {
         }
     }
 
-    #getNavigation(): NavigationElement {
-        return this.container.querySelector<NavigationElement>('ithub-navigation')!;
+    #createThread(comment: CommentModelEnriched): void {
+        // Add comment element
+        const commentList: HTMLUListElement = this.container.querySelector('#comment-list')!;
+        const prependThread = this.#currentSortKey === SortKey.NEWEST;
+        this.#addThread(comment, commentList, prependThread);
     }
 
     #createHTML(): void {
+        // Commenting field
         const mainCommentingField: CommentingFieldElement = CommentingFieldElement.create({ isMain: true });
         this.container.append(mainCommentingField);
 
+        // Hide control row and close button
         const mainControlRow: HTMLElement = mainCommentingField.querySelector('.control-row')!;
         hideElement(mainControlRow);
         hideElement(mainCommentingField.querySelector<HTMLElement>('.close'));
 
+        // Navigation bar
         this.container.append(
             NavigationElement.create({
                 sortKey: this.#currentSortKey,
@@ -200,14 +285,17 @@ export class CommentsElement extends HTMLElement {
             })
         );
 
+        // Loading spinner
         const spinner: HTMLElement = this.#spinnerFactory.createSpinner();
         this.container.append(spinner);
 
+        // Comments container
         const commentsContainer: HTMLElement = document.createElement('div');
         commentsContainer.classList.add('data-container');
         commentsContainer.setAttribute('data-container', 'comments');
         this.container.append(commentsContainer);
 
+        // "No comments" placeholder
         const noComments: HTMLElement = document.createElement('div');
         noComments.classList.add('no-comments', 'no-data');
         noComments.textContent = this.#options.noCommentsText;
@@ -220,7 +308,9 @@ export class CommentsElement extends HTMLElement {
         noComments.prepend(document.createElement('br'), noCommentsIcon);
         commentsContainer.append(noComments);
 
+        // Attachments
         if (this.#options.enableAttachments) {
+            // Drag & dropping attachments
             const droppableOverlay: HTMLDivElement = document.createElement('div');
             droppableOverlay.classList.add('droppable-overlay');
 
@@ -252,62 +342,25 @@ export class CommentsElement extends HTMLElement {
 
     #navigationSortKeyChanged: (newSortKey: SortKey) => void = (newSortKey) => {
         this.#currentSortKey = newSortKey;
+        // Sort the comments if necessary
         this.#sortAndReArrangeComments(newSortKey);
     };
 
     #sortAndReArrangeComments(sortKey: SortKey): void {
         const commentList: HTMLElement = this.container.querySelector('#comment-list')!;
+
+        // Get top level comments
         const rootComments: CommentModelEnriched[] = this.#commentViewModel.getRootComments(
             this.#commentSorter.getSorter(sortKey)
         );
 
+        // Rearrange top level comments
         rootComments.forEach((commentModel) => {
             const commentEl: HTMLElement = commentList.querySelector(
                 `:scope > li.comment[data-id="${commentModel.id}"]`
             )!;
             commentList.append(commentEl);
         });
-    }
-
-    #toggleEventHandlers(bindFunction: 'addEventListener' | 'removeEventListener') {
-        EVENT_HANDLERS_MAP.forEach((handlerNames, event) => {
-            handlerNames.forEach((handlerName) => {
-                const method: (e: Event) => void = <(e: Event) => void>(
-                    this.#elementEventHandler[handlerName].bind(this.#elementEventHandler)
-                );
-
-                if (isNil(event.selector)) {
-                    this.container[bindFunction](event.type, method);
-                } else {
-                    this.container.querySelectorAll<HTMLElement>(event.selector!).forEach((element) => {
-                        element[bindFunction](event.type, method);
-                    });
-                }
-            });
-        });
-    }
-
-    #subscribeEvents(): void {
-        this.#toggleEventHandlers('addEventListener');
-    }
-
-    #unsubscribeEvents(): void {
-        this.#toggleEventHandlers('removeEventListener');
-    }
-
-    #render(commentCount: number): void {
-        if (!this.#dataFetched) {
-            return;
-        }
-
-        this.#createThreads();
-        this.#getNavigation().commentCount = commentCount;
-
-        this.#subscribeEvents();
-
-        this.container.querySelectorAll(':scope > .spinner').forEach((spinner) => spinner.remove());
-
-        this.#options.refresh();
     }
 }
 

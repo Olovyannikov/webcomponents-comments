@@ -34,7 +34,7 @@ export class ToggleAllButtonElement extends HTMLLIElement {
     }
 
     private static create(): ToggleAllButtonElement {
-        return document.createElement('li', { is: 'ax-toggle-all-button' }) as ToggleAllButtonElement;
+        return document.createElement('li', { is: 'ithub-toggle-all-button' }) as ToggleAllButtonElement;
     }
 
     static prependToggleAllButton(parentEl: HTMLElement, options: Required<Labels & Misc>): void {

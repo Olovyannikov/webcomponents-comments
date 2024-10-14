@@ -1,18 +1,12 @@
 import './comments-element.ts';
 import './styles.css';
-import {STYLE_SHEET} from "./css/stylesheet.ts";
-import type {CommentsOptions} from "./options";
-import style
-    from 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css' assert { type: 'css' };
-import {commentsArray, usersArray} from "./shims/data.ts";
+import { STYLE_SHEET } from './css/stylesheet.ts';
+import type { CommentsOptions } from './options';
+import { commentsArray, usersArray } from './shims/data.ts';
 
 interface CommentsElement extends HTMLElement {
     options: CommentsOptions;
 }
-
-if (document.adoptedStyleSheets) document.adoptedStyleSheets = [style as CSSStyleSheet];
-
-const fontAwesomeStyleSheet = style as CSSStyleSheet;
 
 let snackbarId: number;
 
@@ -39,24 +33,27 @@ commentsElement.options = {
     enableAttachments: true,
     enableHashtags: true,
     enablePinging: true,
-    styles: [STYLE_SHEET, fontAwesomeStyleSheet],
+    styles: [STYLE_SHEET],
     searchUsers: (term: string, success: (s: typeof usersArray) => void) => {
         setTimeout(() => {
-            success(usersArray.filter(user => {
-                const containsSearchTerm = user.displayName?.toLowerCase().includes(term.toLowerCase())
-                    || user.id.toLowerCase().includes(term.toLowerCase());
-                const isNotSelf = user.id !== '1';
-                return containsSearchTerm && isNotSelf;
-            }));
+            success(
+                usersArray.filter((user) => {
+                    const containsSearchTerm =
+                        user.displayName?.toLowerCase().includes(term.toLowerCase()) ||
+                        user.id.toLowerCase().includes(term.toLowerCase());
+                    const isNotSelf = user.id !== '1';
+                    return containsSearchTerm && isNotSelf;
+                })
+            );
         }, 500);
     },
     searchTags: (term, success) => {
         setTimeout(() => {
-            const tags = [{tag: term, description: ''}];
+            const tags = [{ tag: term, description: '' }];
             if ('velit'.startsWith(term) || term.startsWith('velit'))
-                tags.unshift({tag: 'velit', description: 'Used 1 time in the current topic.'});
+                tags.unshift({ tag: 'velit', description: 'Used 1 time in the current topic.' });
             if ('loremipsum'.startsWith(term) || term.startsWith('loremipsum'))
-                tags.unshift({tag: 'loremipsum', description: 'Used 2 times in the current topic.'});
+                tags.unshift({ tag: 'loremipsum', description: 'Used 2 times in the current topic.' });
             success(tags);
         }, 239);
     },
@@ -65,12 +62,12 @@ commentsElement.options = {
             success(commentsArray);
         }, 389);
     },
-    postComment: (comment, success ) => {
+    postComment: (comment, success) => {
         setTimeout(() => {
             success(comment);
         }, 542);
     },
-    putComment: (comment, success ) => {
+    putComment: (comment, success) => {
         setTimeout(() => {
             success(comment);
         }, 504);
@@ -80,7 +77,7 @@ commentsElement.options = {
             success({
                 ...comment,
                 content: 'Deleted',
-                attachments: []
+                attachments: [],
             });
         }, 512);
     },

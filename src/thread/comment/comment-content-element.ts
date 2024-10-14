@@ -33,7 +33,7 @@ export class CommentContentElement extends HTMLElement {
 
     static create(options: Pick<CommentContentElement, 'commentModel'>): CommentContentElement {
         const commentContainer: CommentContentElement = document.createElement(
-            'ax-comment-content'
+            'ithub-comment-content'
         ) as CommentContentElement;
         Object.assign(commentContainer, options);
         return commentContainer;
@@ -315,7 +315,7 @@ export class CommentContentElement extends HTMLElement {
         commentEl.classList.add('edit');
 
         // Get or create the editing field
-        let editField: CommentingFieldElement | null = commentWrapper.querySelector(':scope > ax-commenting-field');
+        let editField: CommentingFieldElement | null = commentWrapper.querySelector(':scope > ithub-commenting-field');
         if (isNil(editField)) {
             editField = CommentingFieldElement.create({
                 parentId: commentModel.parentId,

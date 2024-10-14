@@ -1,7 +1,41 @@
 import { noop } from '../common/util.ts';
-import { STYLE_SHEET } from '../css/stylesheet.ts';
-import type { CommentsOptions } from './index.ts';
 import { SortKey } from './misc.ts';
+import { CommentsOptions } from './index.ts';
+import { STYLE_SHEET } from '../css/stylesheet.ts';
+
+function getDefaultTimeFormatter(): (timestamp: Date) => string {
+    const rtf: Intl.RelativeTimeFormat = new Intl.RelativeTimeFormat();
+
+    return (timestamp) => {
+        const epochNow = Math.floor(new Date().getTime() / 1000);
+        const epochTimestamp = Math.floor(timestamp.getTime() / 1000);
+        // Difference in seconds
+        let diff = epochTimestamp - epochNow;
+        diff ||= -1;
+
+        if (diff > -60) {
+            // Less than a minute has passed
+            return rtf.format(diff, 'second');
+        } else if (diff > -3_600) {
+            // Less than an hour has passed
+            return rtf.format(Math.floor(diff / 60), 'minute');
+        } else if (diff > -86_400) {
+            // Less than a day has passed
+            return rtf.format(Math.floor(diff / 3_600), 'hour');
+        } else if (diff > -2_620_800) {
+            // Less than a month has passed
+            return rtf.format(Math.floor(diff / 86_400), 'day');
+        } else if (diff > -7_862_400) {
+            // Less than three months has passed
+            return rtf.format(Math.floor(diff / 2_620_800), 'week');
+        } // More time has passed
+        return (
+            timestamp.toLocaleDateString(undefined, { dateStyle: 'short' }) +
+            ' ' +
+            timestamp.toLocaleTimeString(undefined, { timeStyle: 'short' })
+        );
+    };
+}
 
 export function getDefaultOptions(): Required<CommentsOptions> {
     return {
@@ -83,41 +117,5 @@ export function getDefaultOptions(): Required<CommentsOptions> {
         textareaRows: 2,
         textareaRowsOnFocus: 3,
         maxRepliesVisible: 2,
-    };
-}
-
-function getDefaultTimeFormatter(): (timestamp: Date) => string {
-    const rtf: Intl.RelativeTimeFormat = new Intl.RelativeTimeFormat();
-
-    return (timestamp) => {
-        const epochNow = Math.floor(new Date().getTime() / 1000);
-        const epochTimestamp = Math.floor(timestamp.getTime() / 1000);
-        // Difference in seconds
-        let diff = epochTimestamp - epochNow;
-        diff ||= -1;
-
-        if (diff > -60) {
-            // Less than a minute has passed
-            return rtf.format(diff, 'second');
-        } else if (diff > -3_600) {
-            // Less than an hour has passed
-            return rtf.format(Math.floor(diff / 60), 'minute');
-        } else if (diff > -86_400) {
-            // Less than a day has passed
-            return rtf.format(Math.floor(diff / 3_600), 'hour');
-        } else if (diff > -2_620_800) {
-            // Less than a month has passed
-            return rtf.format(Math.floor(diff / 86_400), 'day');
-        } else if (diff > -7_862_400) {
-            // Less than three months has passed
-            return rtf.format(Math.floor(diff / 2_620_800), 'week');
-        } else {
-            // More time has passed
-            return (
-                timestamp.toLocaleDateString(undefined, { dateStyle: 'short' }) +
-                ' ' +
-                timestamp.toLocaleTimeString(undefined, { timeStyle: 'short' })
-            );
-        }
     };
 }
