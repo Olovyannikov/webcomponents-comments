@@ -8,7 +8,7 @@ import type {
 
 export type SuccessFct<T> = (data: T) => void;
 export type AcceptFct<T> = (data: T) => void;
-export type ErrorFct = (e: any) => void;
+export type ErrorFct = (e: unknown) => void;
 
 export interface Callbacks {
     refresh?(): void;

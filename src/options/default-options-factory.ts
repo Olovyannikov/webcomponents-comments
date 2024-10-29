@@ -1,6 +1,6 @@
 import { noop } from '../common/util.ts';
 import { SortKey } from './misc.ts';
-import { CommentsOptions } from './index.ts';
+import type { CommentsOptions } from './index.ts';
 import { STYLE_SHEET } from '../css/stylesheet.ts';
 
 function getDefaultTimeFormatter(): (timestamp: Date) => string {
@@ -14,21 +14,21 @@ function getDefaultTimeFormatter(): (timestamp: Date) => string {
         diff ||= -1;
 
         if (diff > -60) {
-            // Less than a minute has passed
+            // Менее минуты назад
             return rtf.format(diff, 'second');
         } else if (diff > -3_600) {
-            // Less than an hour has passed
+            // Меньше часа назад
             return rtf.format(Math.floor(diff / 60), 'minute');
         } else if (diff > -86_400) {
-            // Less than a day has passed
+            // Меньше дня назад
             return rtf.format(Math.floor(diff / 3_600), 'hour');
         } else if (diff > -2_620_800) {
-            // Less than a month has passed
+            // Менее месяца назад
             return rtf.format(Math.floor(diff / 86_400), 'day');
         } else if (diff > -7_862_400) {
-            // Less than three months has passed
+            // Меньше трех месяцев
             return rtf.format(Math.floor(diff / 2_620_800), 'week');
-        } // More time has passed
+        } // Давно
         return (
             timestamp.toLocaleDateString(undefined, { dateStyle: 'short' }) +
             ' ' +
@@ -39,12 +39,12 @@ function getDefaultTimeFormatter(): (timestamp: Date) => string {
 
 export function getDefaultOptions(): Required<CommentsOptions> {
     return {
-        // CurrentUser
+        // Текущий пользователь
         profilePictureURL: '',
         currentUserIsAdmin: false,
         currentUserId: '',
 
-        // Icons
+        // Кастомизация иконок
         spinnerIconURL: '',
         upvoteIconURL: '',
         replyIconURL: '',
@@ -53,26 +53,26 @@ export function getDefaultOptions(): Required<CommentsOptions> {
         noCommentsIconURL: '',
         closeIconURL: '',
 
-        // Labels
-        textareaPlaceholderText: 'Add a comment',
-        newestText: 'Newest',
-        oldestText: 'Oldest',
-        popularText: 'Popular',
-        commentsHeaderText: 'Comments (__commentCount__)',
-        sendText: 'Send',
-        replyText: 'Reply',
-        editText: 'Edit',
-        editedText: 'Edited',
-        youText: 'You',
-        saveText: 'Save',
-        deleteText: 'Delete',
-        newText: 'New',
-        viewAllRepliesText: 'View all __replyCount__ replies',
-        hideRepliesText: 'Hide replies',
-        noCommentsText: 'No comments',
-        attachmentDropText: 'Drop files here',
+        // Подписи
+        textareaPlaceholderText: 'Добавить комментарий',
+        newestText: 'Сначала новые',
+        oldestText: 'Сначала старые',
+        popularText: 'Популярные',
+        commentsHeaderText: 'Комментарии (__commentCount__)',
+        sendText: 'Отправить',
+        replyText: 'Ответить',
+        editText: 'Редактировать',
+        editedText: 'Отредактировано',
+        youText: 'Вы',
+        saveText: 'Сохранить',
+        deleteText: 'Удалить',
+        newText: 'Новые',
+        viewAllRepliesText: 'Посмотреть все ответы (__replyCount__)',
+        hideRepliesText: 'Скрыть ответы',
+        noCommentsText: 'Нет комментариев',
+        attachmentDropText: 'Перетащи файлы сюда',
 
-        // Functionalities
+        // Функциональность (true - включено, false - выключено)
         enableReplying: true,
         enableEditing: true,
         enableUpvoting: true,
@@ -86,7 +86,7 @@ export function getDefaultOptions(): Required<CommentsOptions> {
         readOnly: false,
         defaultNavigationSortKey: SortKey.NEWEST,
 
-        // Callbacks
+        // Коллбэки, тут настраиваем кастомные события
         searchUsers: (_term, success) => success([]),
         searchTags: (term, success) => success([{ tag: term }]),
         getComments: (success) => success([]),
@@ -95,7 +95,7 @@ export function getDefaultOptions(): Required<CommentsOptions> {
         deleteComment: (comment, success) =>
             success({
                 ...comment,
-                content: 'Deleted',
+                content: 'Удалено',
                 isDeleted: true,
             }),
         upvoteComment: (comment, success) => success(comment),
@@ -104,10 +104,10 @@ export function getDefaultOptions(): Required<CommentsOptions> {
         pingClicked: noop,
         refresh: noop,
 
-        // Formatters
+        // Форматтеры (например для пола / времени итп)
         timeFormatter: getDefaultTimeFormatter(),
 
-        // Misc
+        // Общие настройки
         styles: [STYLE_SHEET],
         highlightColor: '#2793e6',
         deleteButtonColor: '#c9302c',
