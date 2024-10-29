@@ -13,17 +13,6 @@ class QueryableElementArray<E extends HTMLElement> extends Array implements Pick
         return null;
     }
 
-    querySelectorAll(selectors: string): E[] {
-        const results: E[] = [];
-        for (const element of this) {
-            const foundElements: NodeListOf<E> = (element as E).querySelectorAll<E>(selectors);
-            if (foundElements.length > 0) {
-                results.push(...foundElements);
-            }
-        }
-        return results;
-    }
-
     first(): E | null {
         return this.length > 0 ? (this[0] as E) : null;
     }
@@ -73,23 +62,13 @@ function hideElementUnconditionally(element: HTMLElement): void {
     element.style.display = 'none';
 }
 
-export function hideElement(element: HTMLElement | null): void {
+export function hideElement(element: HTMLElement | null) {
     if (element && getElementStyle(element, 'display') !== 'none') {
         hideElementUnconditionally(element);
     }
 }
 
-export function toggleElementVisibility(element: HTMLElement | null): void {
-    if (!element) {
-        return;
-    } else if (getElementStyle(element, 'display') !== 'none') {
-        hideElementUnconditionally(element);
-    } else {
-        showElementUnconditionally(element);
-    }
-}
-
-export function isElementVisible(element: HTMLElement | null): boolean {
+export function isElementVisible(element: HTMLElement | null) {
     return !!element && !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length);
 }
 
@@ -107,7 +86,7 @@ export function findSiblingsBySelector<E extends HTMLElement = HTMLElement>(
     }
 
     if (!selectors) {
-        return new QueryableElementArray(...(siblings as any));
+        return new QueryableElementArray(...(siblings as unknown as number[]));
     }
 
     const results: E[] = [];
@@ -116,5 +95,5 @@ export function findSiblingsBySelector<E extends HTMLElement = HTMLElement>(
             results.push(sibling);
         }
     }
-    return new QueryableElementArray(...(results as any));
+    return new QueryableElementArray(...(results as unknown as number[]));
 }
