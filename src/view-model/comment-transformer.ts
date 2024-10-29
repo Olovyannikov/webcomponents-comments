@@ -50,7 +50,7 @@ export class CommentTransformer {
         }
 
         if (!isNil(commentModel.parentId)) {
-            parentGetter(commentModel.parentId).directChildIds.push(commentModel.id);
+            parentGetter(commentModel.parentId)?.directChildIds.push(commentModel.id);
             this.#visitParents(commentModel, parentGetter, (parent) => this.#assignChildId(parent, commentModel.id));
         }
 
@@ -67,11 +67,11 @@ export class CommentTransformer {
         do {
             parentComment = parentGetter(parentId!);
             parentVisitor(parentComment);
-            parentId = parentComment.parentId;
+            parentId = parentComment?.parentId;
         } while (!isNil(parentId));
     }
 
     #assignChildId(parent: CommentModelEnriched, childId: CommentId): void {
-        parent.allChildIds.push(childId);
+        parent?.allChildIds.push(childId);
     }
 }

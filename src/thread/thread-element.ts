@@ -54,7 +54,9 @@ export class ThreadElement extends CommentElement {
             this.#commentSorter.getSorter(SortKey.OLDEST)
         );
 
-        replies.forEach((reply) => this.#addComment(reply));
+        replies.forEach((reply) => {
+            this.#addComment(reply);
+        });
         this.#prependToggleAllButton();
     }
 
@@ -71,6 +73,13 @@ export class ThreadElement extends CommentElement {
 
         // Append element to DOM
         const childCommentsEl: HTMLElement = this.querySelector('.child-comments')!;
+        const childComments = childCommentsEl.querySelectorAll(`li.comment[data-id="${commentModel.id}"]`);
+        childComments?.forEach((el, idx) => {
+            if (childComments[idx].id === el.id) {
+                el.remove();
+            }
+        });
+
         childCommentsEl.append(commentEl);
     }
 

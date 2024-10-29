@@ -28,6 +28,9 @@
     "no-param-reassign": [ "error", {
       "props": false
     } ],
+    "no-console": [ "warn", {
+      "allow": [ "warn", "error" ]
+    } ],
     "prefer-rest-params": "warn"
   }
 }

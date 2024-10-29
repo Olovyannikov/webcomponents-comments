@@ -182,26 +182,6 @@ export class CommentsElement extends HTMLElement {
         this.#options.getComments(success, error);
     }
 
-    #fetchNext(): void {
-        // Loading indicator
-        const spinner = this.#spinnerFactory.createSpinner();
-        this.container.querySelector('ul#comment-list')!.append(spinner);
-
-        const success: (comments: CommentModel[]) => void = (comments) => {
-            comments.forEach((comment) => {
-                const commentEnriched: CommentModelEnriched = this.#commentViewModel.addComment(comment);
-                this.#createThread(commentEnriched);
-            });
-            spinner.remove();
-        };
-
-        const error: () => void = () => {
-            spinner.remove();
-        };
-
-        this.#options.getComments(success, error);
-    }
-
     #render(commentCount: number): void {
         // Prevent re-rendering if data hasn't been fetched
         if (!this.#dataFetched) {

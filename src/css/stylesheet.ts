@@ -347,6 +347,10 @@ const mainStyle: string = tagNoop`
     color: #000;
 }
 
+#comments-container .navigation li.active {
+    pointer-events: none;
+}
+
 #comments-container .navigation .dropdown-menu {
     display: none;
 }

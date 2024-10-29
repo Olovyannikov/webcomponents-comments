@@ -59,7 +59,7 @@ export class NavigationElement extends HTMLElement {
         commentsHeader.textContent = this.#options.commentsHeaderText;
         this.#setCommentsHeaderText(this.#commentCount, commentsHeader);
 
-        const sortingMenu: HTMLMenuElement = document.createElement('menu');
+        const sortingMenu: HTMLMenuElement = document.createElement('ul');
         sortingMenu.className = 'bar';
 
         // Newest

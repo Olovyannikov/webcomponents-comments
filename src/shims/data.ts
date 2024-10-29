@@ -1,11 +1,12 @@
-import {CommentModel} from "../options/models.ts";
+import type { CommentModel } from '../options/models.ts';
 
 export const commentsArray: CommentModel[] = [
     {
         id: '1',
         parentId: null,
-        createdAt: new Date('2015-12-01 23:50'),
-        content: 'Lorem ipsum dolor sit amet #loremipsum, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu.',
+        createdAt: new Date('2024-09-01 23:50'),
+        content:
+            'Lorem ipsum dolor sit amet #loremipsum, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu.',
         attachments: [],
         pings: {},
         creatorUserId: 'simon_powell',
@@ -15,13 +16,14 @@ export const commentsArray: CommentModel[] = [
         createdByCurrentUser: false,
         upvoteCount: 3,
         upvotedByCurrentUser: true,
-        isNew: false
+        isNew: false,
     },
     {
         id: '2',
         parentId: null,
-        createdAt: new Date('2016-01-02 00:32'),
-        content: 'Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu.',
+        createdAt: new Date('2024-01-02 00:32'),
+        content:
+            'Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu.',
         attachments: [],
         pings: {},
         creatorUserId: 'administrator',
@@ -31,16 +33,17 @@ export const commentsArray: CommentModel[] = [
         createdByCurrentUser: false,
         upvoteCount: 2,
         upvotedByCurrentUser: false,
-        isNew: false
+        isNew: false,
     },
     {
         id: '3',
         parentId: null,
-        createdAt: new Date('2016-03-03 07:11'),
-        content: '@hank_smith2 sed posuere interdum sem.\nQuisque ligula eros ullamcorper https://www.google.com/ quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget #velit.',
+        createdAt: new Date('2024-03-03 07:11'),
+        content:
+            '@hank_smith2 sed posuere interdum sem.\nQuisque ligula eros ullamcorper https://www.google.com/ quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget #velit.',
         attachments: [],
         pings: {
-            'hank_smith2': 'Hank Smith',
+            hank_smith2: 'Hank Smith',
         },
         creatorUserId: 'current-user',
         creatorDisplayName: 'You',
@@ -49,13 +52,13 @@ export const commentsArray: CommentModel[] = [
         createdByCurrentUser: true,
         upvoteCount: 1,
         upvotedByCurrentUser: false,
-        isNew: false
+        isNew: false,
     },
     {
         id: '4',
         parentId: '3',
-        createdAt: new Date('2016-03-04 11:20'),
-        modifiedAt: new Date('2016-03-04 11:29'),
+        createdAt: new Date('2024-03-04 11:20'),
+        modifiedAt: new Date('2024-03-04 11:29'),
         content: '',
         attachments: [
             {
@@ -71,13 +74,14 @@ export const commentsArray: CommentModel[] = [
         createdByCurrentUser: false,
         upvoteCount: 2,
         upvotedByCurrentUser: false,
-        isNew: true
+        isNew: true,
     },
     {
         id: '5',
         parentId: '4',
-        createdAt: new Date('2016-03-05 09:11'),
-        content: 'Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.',
+        createdAt: new Date('2024-03-05 09:11'),
+        content:
+            'Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.',
         attachments: [],
         pings: {},
         creatorUserId: 'hank_smith2',
@@ -87,13 +91,14 @@ export const commentsArray: CommentModel[] = [
         createdByCurrentUser: false,
         upvoteCount: 0,
         upvotedByCurrentUser: false,
-        isNew: true
+        isNew: true,
     },
     {
         id: '6',
         parentId: '1',
-        createdAt: new Date('2016-04-20 16:59'),
-        content: 'Lorem ipsum dolor sit amet #loremipsum, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu.',
+        createdAt: new Date('2024-04-20 16:59'),
+        content:
+            'Lorem ipsum dolor sit amet #loremipsum, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu.',
         attachments: [],
         pings: {},
         creatorUserId: 'jack_hemsworth',
@@ -103,13 +108,14 @@ export const commentsArray: CommentModel[] = [
         createdByCurrentUser: false,
         upvoteCount: 1,
         upvotedByCurrentUser: false,
-        isNew: false
+        isNew: false,
     },
     {
         id: '7',
         parentId: '1',
         createdAt: new Date(new Date().getTime() - 27 * 24 * 60 * 60 * 1000),
-        content: 'Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.',
+        content:
+            'Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.',
         attachments: [],
         pings: {},
         creatorUserId: 'administrator',
@@ -119,13 +125,14 @@ export const commentsArray: CommentModel[] = [
         createdByCurrentUser: false,
         upvoteCount: 0,
         upvotedByCurrentUser: false,
-        isNew: false
+        isNew: false,
     },
     {
         id: '8',
         parentId: '6',
         createdAt: new Date(new Date().getTime() - 12 * 60 * 60 * 1000),
-        content: 'Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu.',
+        content:
+            'Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu.',
         attachments: [],
         pings: {},
         creatorUserId: 'current-user',
@@ -135,13 +142,14 @@ export const commentsArray: CommentModel[] = [
         createdByCurrentUser: true,
         upvoteCount: 0,
         upvotedByCurrentUser: false,
-        isNew: false
+        isNew: false,
     },
     {
         id: '9',
         parentId: '8',
         createdAt: new Date(new Date().getTime() - 33 * 60 * 1000),
-        content: 'Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.',
+        content:
+            'Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.',
         attachments: [],
         pings: {},
         creatorUserId: 'bryan_connery',
@@ -151,15 +159,16 @@ export const commentsArray: CommentModel[] = [
         createdByCurrentUser: false,
         upvoteCount: 0,
         upvotedByCurrentUser: false,
-        isNew: false
+        isNew: false,
     },
     {
         id: '10',
         parentId: '9',
         createdAt: (() => {
-            return new Date(new Date().getTime() - 51 * 1000)
+            return new Date(new Date().getTime() - 51 * 1000);
         })(),
-        content: 'Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.',
+        content:
+            'Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.',
         attachments: [
             {
                 id: '2',
@@ -175,50 +184,50 @@ export const commentsArray: CommentModel[] = [
         createdByCurrentUser: true,
         upvoteCount: 0,
         upvotedByCurrentUser: false,
-        isNew: false
-    }
+        isNew: false,
+    },
 ];
 
 export const usersArray = [
     {
-        id: 'current-user',//1,
+        id: 'current-user', //1,
         displayName: 'Current User',
         email: 'current.user@example.com',
-        profilePictureURL: 'https://i.pravatar.cc/100?img=65'
+        profilePictureURL: 'https://i.pravatar.cc/100?img=65',
     },
     {
-        id: 'jack_hemsworth',//2,
+        id: 'jack_hemsworth', //2,
         displayName: 'Jack Hemsworth',
         email: 'jack.hemsworth@example.com',
-        profilePictureURL: 'https://i.pravatar.cc/100?img=50'
+        profilePictureURL: 'https://i.pravatar.cc/100?img=50',
     },
     {
-        id: 'hank_smith2',//3,
+        id: 'hank_smith2', //3,
         displayName: 'Hank Smith',
         email: 'hank.smith@example.com',
-        profilePictureURL: 'https://i.pravatar.cc/100?img=58'
+        profilePictureURL: 'https://i.pravatar.cc/100?img=58',
     },
     {
-        id: 'todd_brown',//4,
+        id: 'todd_brown', //4,
         displayName: 'Todd Brown',
         email: 'todd.brown@example.com',
-        profilePictureURL: 'https://i.pravatar.cc/100?img=33'
+        profilePictureURL: 'https://i.pravatar.cc/100?img=33',
     },
     {
-        id: 'administrator',//5,
+        id: 'administrator', //5,
         email: 'administrator@example.com',
-        profilePictureURL: 'https://i.pravatar.cc/100?img=49'
+        profilePictureURL: 'https://i.pravatar.cc/100?img=49',
     },
     {
-        id: 'simon_powell',//6,
+        id: 'simon_powell', //6,
         displayName: 'Simon Powell',
         email: 'simon.powell@example.com',
-        profilePictureURL: 'https://i.pravatar.cc/100?img=32'
+        profilePictureURL: 'https://i.pravatar.cc/100?img=32',
     },
     {
-        id: 'bryan_connery',//7,
+        id: 'bryan_connery', //7,
         displayName: 'Bryan Connery',
         email: 'bryan.connery@example.com',
-        profilePictureURL: 'https://i.pravatar.cc/100?img=61'
-    }
+        profilePictureURL: 'https://i.pravatar.cc/100?img=61',
+    },
 ];

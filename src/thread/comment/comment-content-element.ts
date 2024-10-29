@@ -378,6 +378,7 @@ export class CommentContentElement extends HTMLElement {
 
     reRenderCommentActionBar(): void {
         const commentModel: CommentModelEnriched = this.commentModel;
+        console.log({ commentModel });
         const actions: HTMLSpanElement = this.#createActions(commentModel);
 
         this.querySelector('.actions')!.replaceWith(actions);
