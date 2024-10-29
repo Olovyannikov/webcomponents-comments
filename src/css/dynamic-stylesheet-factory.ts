@@ -1,4 +1,4 @@
-import { CommentsOptions } from '../options';
+import type { CommentsOptions } from '../options';
 
 function createStyle(css: string): CSSStyleSheet {
     const styleSheet: CSSStyleSheet = new CSSStyleSheet();
