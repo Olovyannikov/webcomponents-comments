@@ -1,13 +1,13 @@
 import { defineCustomElement } from '../../common/custom-element.ts';
 import { isNil, noop } from '../../common/util.ts';
-import { CommentsOptions } from '../../options';
+import type { CommentsOptions } from '../../options';
 import { CommentViewModelProvider, OptionsProvider, ServiceProvider } from '../../common/provider.ts';
 import { getHostContainer } from '../../common/html-util.ts';
 import { SpinnerFactory } from './spinner-factory.ts';
 import type { CommentModelEnriched } from '../../view-model/comment-model-enriched.ts';
 import { CommentViewModel } from '../../view-model/comment-view-model.ts';
-import { ErrorFct, SuccessFct } from '../../options/callbacks.ts';
-import { CommentModel } from '../../options/models.ts';
+import type { ErrorFct, SuccessFct } from '../../options/callbacks.ts';
+import type { CommentModel } from '../../options/models.ts';
 
 export class ButtonElement extends HTMLButtonElement {
     set inline(value: boolean) {

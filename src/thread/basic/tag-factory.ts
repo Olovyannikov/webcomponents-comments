@@ -87,7 +87,7 @@ export class TagFactory {
             );
             attachmentTag.append(closeButton);
         } else {
-            // Set href attribute if not deletable
+            // Set href attribute if not removable
             attachmentTag.setAttribute('href', attachment.file as string);
         }
 

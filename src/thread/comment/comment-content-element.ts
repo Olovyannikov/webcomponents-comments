@@ -1,7 +1,7 @@
 import { defineCustomElement } from '../../common/custom-element.ts';
-import { CommentModelEnriched } from '../../view-model/comment-model-enriched.ts';
-import { AttachmentModel, CommentModel } from '../../options/models.ts';
-import { SuccessFct } from '../../options/callbacks.ts';
+import type { CommentModelEnriched } from '../../view-model/comment-model-enriched.ts';
+import type { AttachmentModel, CommentModel } from '../../options/models.ts';
+import type { SuccessFct } from '../../options/callbacks.ts';
 import { ButtonElement } from '../basic/button-element.ts';
 import { CommentingFieldElement } from '../commenting-field/commenting-field-element.ts';
 import { isNil } from '../../common/util.ts';
@@ -17,7 +17,7 @@ import {
     CommentViewModelEvent,
     CommentViewModelEventSubscription,
 } from '../../view-model/comment-view-model.ts';
-import { CommentsOptions } from '../../options';
+import type { CommentsOptions } from '../../options';
 import { CommentContentFormatter } from './comment-content-formatter.ts';
 
 export class CommentContentElement extends HTMLElement {
@@ -378,7 +378,6 @@ export class CommentContentElement extends HTMLElement {
 
     reRenderCommentActionBar(): void {
         const commentModel: CommentModelEnriched = this.commentModel;
-        console.log({ commentModel });
         const actions: HTMLSpanElement = this.#createActions(commentModel);
 
         this.querySelector('.actions')!.replaceWith(actions);

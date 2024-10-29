@@ -25,7 +25,7 @@
     "no-use-before-define": "warn",
     "no-useless-computed-key": "warn",
     "no-unsafe-optional-chaining": "warn",
-    "no-param-reassign": [ "error", {
+    "no-param-reassign": [ "warn", {
       "props": false
     } ],
     "no-console": [ "warn", {

@@ -1,7 +1,7 @@
 import type { CommentModelEnriched } from '../../view-model/comment-model-enriched.ts';
 import { isNil, normalizeSpaces } from '../../common/util.ts';
-import { Functionalities } from '../../options/functionalities.ts';
-import { Callbacks } from '../../options/callbacks.ts';
+import type { Functionalities } from '../../options/functionalities.ts';
+import type { Callbacks } from '../../options/callbacks.ts';
 import { TagFactory } from '../basic/tag-factory.ts';
 import { OptionsProvider, ServiceProvider } from '../../common/provider.ts';
 import DOMPurify from 'dompurify';

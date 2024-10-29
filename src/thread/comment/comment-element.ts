@@ -1,6 +1,6 @@
 import { defineCustomElement } from '../../common/custom-element.ts';
 import { CommentContentElement } from './comment-content-element.ts';
-import { CommentModelEnriched } from '../../view-model/comment-model-enriched.ts';
+import type { CommentModelEnriched } from '../../view-model/comment-model-enriched.ts';
 
 export class CommentElement extends HTMLLIElement {
     #commentModel!: CommentModelEnriched;
