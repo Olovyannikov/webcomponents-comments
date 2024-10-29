@@ -72,10 +72,6 @@ export function isElementVisible(element: HTMLElement | null) {
     return !!element && !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length);
 }
 
-export function isElementHidden(element: HTMLElement | null): boolean {
-    return !isElementVisible(element);
-}
-
 export function findSiblingsBySelector<E extends HTMLElement = HTMLElement>(
     element: Element,
     selectors?: string

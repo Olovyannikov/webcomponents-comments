@@ -1,10 +1,10 @@
-import { CommentsOptions } from '../../options';
+import type { CommentsOptions } from '../../options';
 import { ProfilePictureFactory } from '../basic/profile-picture-factory.ts';
 import { OptionsProvider, ServiceProvider } from '../../common/provider.ts';
 import { TextareaElement } from './textarea-element.ts';
-import { PingableUser, ReferenceableHashtag } from '../../options/models.ts';
+import type { PingableUser, ReferenceableHashtag } from '../../options/models.ts';
 import { isStringEmpty, normalizeSpaces } from '../../common/util.ts';
-import { StrategyProps, Textcomplete, TextcompleteOption } from '@textcomplete/core';
+import { type StrategyProps, Textcomplete, type TextcompleteOption } from '@textcomplete/core';
 import { TextareaEditor } from '@textcomplete/textarea';
 
 export class TextcompleteFactory {

@@ -1,7 +1,7 @@
 import { defineCustomElement } from '../../common/custom-element.ts';
 import { normalizeSpaces } from '../../common/util.ts';
-import { PingableUser, UserDisplayNamesById } from '../../options/models.ts';
-import { CommentsOptions } from '../../options';
+import type { PingableUser, UserDisplayNamesById } from '../../options/models.ts';
+import type { CommentsOptions } from '../../options';
 import { CommentViewModel } from '../../view-model/comment-view-model.ts';
 import { findSiblingsBySelector, getHostContainer } from '../../common/html-util.ts';
 import { CommentViewModelProvider, OptionsProvider } from '../../common/provider.ts';

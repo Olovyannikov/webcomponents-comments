@@ -8,7 +8,7 @@ import { findSiblingsBySelector, getHostContainer, hideElement, showElement } fr
 import { CommentViewModel } from '../../view-model/comment-view-model.ts';
 import { ProfilePictureFactory } from '../basic/profile-picture-factory.ts';
 import { defineCustomElement } from '../../common/custom-element.ts';
-import { ErrorFct, SuccessFct } from '../../options/callbacks.ts';
+import type { ErrorFct, SuccessFct } from '../../options/callbacks.ts';
 import { CommentViewModelProvider, OptionsProvider, ServiceProvider } from '../../common/provider.ts';
 import { TextcompleteFactory } from './textcomplete-factory.ts';
 import { Textcomplete } from '@textcomplete/core';

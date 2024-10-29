@@ -2,10 +2,10 @@ import { defineCustomElement } from '../common/custom-element.ts';
 import { CommentElement } from './comment/comment-element.ts';
 import { CommentSorter } from '../view-model/comment-sorter.ts';
 import { CommentViewModel, CommentViewModelEvent } from '../view-model/comment-view-model.ts';
-import { CommentsOptions } from '../options';
+import type { CommentsOptions } from '../options';
 import { CommentViewModelProvider, OptionsProvider, ServiceProvider } from '../common/provider.ts';
 import { getHostContainer } from '../common/html-util.ts';
-import { CommentModelEnriched } from '../view-model/comment-model-enriched.ts';
+import type { CommentModelEnriched } from '../view-model/comment-model-enriched.ts';
 import { SortKey } from '../options/misc.ts';
 import { ToggleAllButtonElement } from './basic/toggle-all-button-element.ts';
 
