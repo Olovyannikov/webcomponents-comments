@@ -1,9 +1,9 @@
 import EventEmitter from 'eventemitter3';
-import { CommentId, CommentModel } from '../options/models.ts';
-import { CommentTransformer } from './comment-transformer.ts';
-import { CommentsById } from './comments-by-id.ts';
+import type { CommentId, CommentModel } from '../options/models.ts';
+import type { CommentsById } from './comments-by-id.ts';
+import type { CommentModelEnriched } from './comment-model-enriched.ts';
 import { CommentsByIdFactory } from './comments-by-id-factory.ts';
-import { CommentModelEnriched } from './comment-model-enriched.ts';
+import { CommentTransformer } from './comment-transformer.ts';
 
 export enum CommentViewModelEvent {
     COMMENT_ADDED = 'COMMENT_ADDED',
@@ -107,14 +107,5 @@ export class CommentViewModel {
         });
         this.#eventEmitter.emit(CommentViewModelEvent.COMMENT_UPVOTED, comment.id);
         return existingComment;
-    }
-
-    deleteComment(comment: CommentModel): void {
-        const existingComment: CommentModelEnriched | undefined = this.getComment(comment.id);
-        if (!existingComment) return;
-
-        this.#commentsById.deleteComment(existingComment);
-
-        this.#eventEmitter.emit(CommentViewModelEvent.COMMENT_DELETED, comment.id);
     }
 }

@@ -1,5 +1,5 @@
-import { Functionalities } from '../options/functionalities.ts';
-import { CommentModelEnriched } from './comment-model-enriched.ts';
+import type { Functionalities } from '../options/functionalities.ts';
+import type { CommentModelEnriched } from './comment-model-enriched.ts';
 import { OptionsProvider } from '../common/provider.ts';
 import { SortKey } from '../options/misc.ts';
 
@@ -8,10 +8,6 @@ export class CommentSorter {
 
     constructor(container: HTMLElement) {
         this.#options = OptionsProvider.get(container)!;
-    }
-
-    sortComments(comments: CommentModelEnriched[], sortKey: SortKey): CommentModelEnriched[] {
-        return comments.sort(this.getSorter(sortKey));
     }
 
     getSorter(sortKey: SortKey): (a: CommentModelEnriched, b: CommentModelEnriched) => number {

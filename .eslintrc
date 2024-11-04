@@ -32,6 +32,7 @@
       "allow": [ "warn", "error" ]
     } ],
     "no-unused-vars": "warn",
+    "no-implicit-coercion": "error",
     "prefer-rest-params": "warn"
   }
 }

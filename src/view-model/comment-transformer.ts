@@ -1,9 +1,9 @@
-import { CommentId, CommentModel } from '../options/models.ts';
-import { CommentModelEnriched } from './comment-model-enriched.ts';
-import { CommentsById } from './comments-by-id.ts';
+import type { CommentId, CommentModel } from '../options/models.ts';
+import type { CommentModelEnriched } from './comment-model-enriched.ts';
+import type { CommentsById } from './comments-by-id.ts';
+import type { Writeable } from '../common/writeable.ts';
 import { isNil } from '../common/util.ts';
 import { CommentsByIdFactory } from './comments-by-id-factory.ts';
-import { Writeable } from '../common/writeable.ts';
 
 export class CommentTransformer {
     enrichMany(comments: CommentModel[]): CommentsById {

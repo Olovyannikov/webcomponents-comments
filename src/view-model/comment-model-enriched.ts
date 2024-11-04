@@ -1,4 +1,4 @@
-import {CommentId, CommentModel} from "../options/models.ts";
+import type { CommentId, CommentModel } from '../options/models.ts';
 
 export interface CommentModelEnriched extends Readonly<CommentModel> {
     readonly directChildIds: CommentId[];
